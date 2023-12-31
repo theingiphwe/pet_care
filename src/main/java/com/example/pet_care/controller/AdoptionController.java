@@ -1,6 +1,9 @@
 package com.example.pet_care.controller;
 
+import com.example.pet_care.dto.AdoptionRequest;
+import com.example.pet_care.dto.PetRequest;
 import com.example.pet_care.entity.Adoption;
+import com.example.pet_care.entity.Pet;
 import com.example.pet_care.entity.User;
 import com.example.pet_care.service.AdoptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +20,9 @@ public class AdoptionController {
     private AdoptionService adoptionService;
 
     @PostMapping
-    public ResponseEntity<Adoption> createUser(@RequestBody Adoption adoption){
-        adoptionService.create(adoption);
-        return  new ResponseEntity<>(adoption, HttpStatus.CREATED);
+    public ResponseEntity<AdoptionRequest> createUser(@RequestBody AdoptionRequest adoptionRequest){
+        adoptionService.register(adoptionRequest);
+        return  new ResponseEntity<>(adoptionRequest, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -45,5 +48,6 @@ public class AdoptionController {
         adoptionService.deleteById(id);
         return new ResponseEntity<>("done",HttpStatus.OK);
     }
+
 
 }

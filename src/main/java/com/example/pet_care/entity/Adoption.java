@@ -1,13 +1,13 @@
 package com.example.pet_care.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.pet_care.dto.AdoptionRequest;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -18,4 +18,20 @@ public class Adoption {
     private int adoptionID;
     private Date date;
     private String comment;
+    @OneToMany(mappedBy = "adoption",cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Pet> pets;
+
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private User user;
+
+    public static  Adoption of(AdoptionRequest adoptionRequest){
+        Adoption adoption = new Adoption();
+        adoption.setComment(adoptionRequest.getComment());
+        adoption.setDate(adoptionRequest.getDate());
+        return adoption;
+    }
+
+
 }

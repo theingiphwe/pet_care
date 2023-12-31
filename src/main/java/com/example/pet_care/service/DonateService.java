@@ -1,11 +1,12 @@
 package com.example.pet_care.service;
 
+import com.example.pet_care.dto.DonateRequest;
 import com.example.pet_care.entity.Donate;
 
 import java.util.List;
 
 public interface DonateService {
-    Donate create(Donate donate);
+    void register(DonateRequest donateRequest);
 
     void deleteById(int id);
 

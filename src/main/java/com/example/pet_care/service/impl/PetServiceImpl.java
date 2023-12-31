@@ -1,11 +1,16 @@
 package com.example.pet_care.service.impl;
 
 import com.example.pet_care.dto.PetRequest;
+import com.example.pet_care.entity.Adoption;
 import com.example.pet_care.entity.Pet;
+import com.example.pet_care.entity.ReHoming;
 import com.example.pet_care.entity.Species;
+import com.example.pet_care.repo.AdoptionRepo;
 import com.example.pet_care.repo.PetRepo;
+import com.example.pet_care.repo.ReHomingRepo;
 import com.example.pet_care.repo.SpeciesRepo;
 import com.example.pet_care.service.PetService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +18,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class PetServiceImpl implements PetService {
-
-    @Autowired
     private PetRepo petRepo;
-
-    @Autowired
+    private ReHomingRepo reHomingRepo;
     private SpeciesRepo speciesRepo;
+    private AdoptionRepo adoptionRepo;
     @Override
     public void register(PetRequest petRequest) {
         Species species = speciesRepo.findById(petRequest.getSpeciesId())

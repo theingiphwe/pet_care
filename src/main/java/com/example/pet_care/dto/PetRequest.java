@@ -16,7 +16,10 @@ public class PetRequest {
     private Gender gender;
     private String image;
     private String description;
+    private String color;
     private Size size;
+    private boolean isAdoptable;
     private Status status;
     private int speciesId;
+
 }

@@ -1,5 +1,6 @@
 package com.example.pet_care.controller;
 
+import com.example.pet_care.dto.DonateRequest;
 import com.example.pet_care.entity.Adoption;
 import com.example.pet_care.entity.Donate;
 import com.example.pet_care.service.DonateService;
@@ -17,8 +18,9 @@ public class DonateController {
     @Autowired
     private DonateService donateService;
     @PostMapping
-    public ResponseEntity<Donate> create(@RequestBody Donate donate){
-        return new ResponseEntity<>(donateService.create(donate), HttpStatus.CREATED);
+    public ResponseEntity<DonateRequest> create(@RequestBody DonateRequest donateRequest){
+        donateService.register(donateRequest);
+        return new ResponseEntity<>(donateRequest, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")

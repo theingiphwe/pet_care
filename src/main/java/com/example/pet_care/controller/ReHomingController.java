@@ -1,5 +1,6 @@
 package com.example.pet_care.controller;
 
+import com.example.pet_care.dto.ReHomingRequest;
 import com.example.pet_care.entity.Adoption;
 import com.example.pet_care.entity.ReHoming;
 import com.example.pet_care.service.ReHomingService;
@@ -18,9 +19,9 @@ public class ReHomingController {
     private ReHomingService reHomingService;
 
     @PostMapping
-    public ResponseEntity<ReHoming> createUser(@RequestBody ReHoming reHoming){
-        reHomingService.create(reHoming);
-        return  new ResponseEntity<>(reHoming, HttpStatus.CREATED);
+    public ResponseEntity<ReHomingRequest> createUser(@RequestBody ReHomingRequest reHomingRequest){
+        reHomingService.register(reHomingRequest);
+        return  new ResponseEntity<>(reHomingRequest, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")

@@ -1,8 +1,11 @@
 package com.example.pet_care.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 
 @Entity
@@ -19,4 +22,15 @@ public class User {
     private String address;
     @Enumerated(EnumType.STRING)
     private Role role;
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Donate> donateList;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Adoption> adoptionList;
+
+    @OneToMany(mappedBy = "user", cascade =CascadeType.ALL)
+    @JsonIgnore
+    private List<ReHoming> reHomingList;
 }

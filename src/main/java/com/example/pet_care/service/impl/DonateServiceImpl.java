@@ -1,8 +1,12 @@
 package com.example.pet_care.service.impl;
 
+import com.example.pet_care.dto.DonateRequest;
 import com.example.pet_care.entity.Donate;
+import com.example.pet_care.entity.User;
 import com.example.pet_care.repo.DonateRepo;
+import com.example.pet_care.repo.UserRepo;
 import com.example.pet_care.service.DonateService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,12 +14,19 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-
+@AllArgsConstructor
 public class DonateServiceImpl implements DonateService {
-    @Autowired
+
     private DonateRepo donateRepo;
+    private UserRepo userRepo;
     @Override
-    public Donate create(Donate donate){return donateRepo.save(donate);}
+    public void register(DonateRequest donateRequest){
+        User user = userRepo.findById(donateRequest.getUserId())
+                .orElseThrow(()->new IllegalArgumentException());
+        Donate donate = Donate.of(donateRequest);
+        donate.setUser(user);
+        donateRepo.save(donate);
+    }
 
     @Override
     public void deleteById(int id) {

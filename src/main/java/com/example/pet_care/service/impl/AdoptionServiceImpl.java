@@ -1,8 +1,12 @@
 package com.example.pet_care.service.impl;
 
+import com.example.pet_care.dto.AdoptionRequest;
 import com.example.pet_care.entity.Adoption;
+import com.example.pet_care.entity.User;
 import com.example.pet_care.repo.AdoptionRepo;
+import com.example.pet_care.repo.UserRepo;
 import com.example.pet_care.service.AdoptionService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,12 +14,17 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class AdoptionServiceImpl implements AdoptionService {
 
-    @Autowired
     private AdoptionRepo adoptionRepo;
+    private UserRepo userRepo;
     @Override
-    public void create(Adoption adoption) {
+    public void register(AdoptionRequest adoptionRequest) {
+        User user = userRepo.findById(adoptionRequest.getUserId())
+                        .orElseThrow(()->new IllegalArgumentException());
+        Adoption adoption = Adoption.of(adoptionRequest);
+        adoption.setUser(user);
         adoptionRepo.save(adoption);
     }
 
