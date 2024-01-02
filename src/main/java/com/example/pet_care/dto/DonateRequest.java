@@ -11,7 +11,6 @@ import java.util.Date;
 @Setter
 public class DonateRequest {
 
-    private int id;
     private double amount;
     private String description;
     private Date date;

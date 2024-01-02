@@ -9,8 +9,8 @@ import java.util.Date;
 @Setter
 public class AdoptionRequest {
 
-    private int adoptionID;
     private Date date;
     private String comment;
     private int userId;
+    private int petId;//*
 }

@@ -1,8 +1,10 @@
 package com.example.pet_care.service.impl;
 
 import com.example.pet_care.dto.ReHomingRequest;
+import com.example.pet_care.entity.Pet;
 import com.example.pet_care.entity.ReHoming;
 import com.example.pet_care.entity.User;
+import com.example.pet_care.repo.PetRepo;
 import com.example.pet_care.repo.ReHomingRepo;
 import com.example.pet_care.repo.UserRepo;
 import com.example.pet_care.service.ReHomingService;
@@ -20,12 +22,16 @@ public class ReHomingServiceImpl implements ReHomingService {
 
     private ReHomingRepo reHomingRepo;
     private UserRepo userRepo;
+    private PetRepo petRepo;
     @Override
     public void register(ReHomingRequest reHomingRequest) {
         User user = userRepo.findById(reHomingRequest.getUserId())
                 .orElseThrow(()->new IllegalArgumentException());
+        Pet pet = petRepo.findById(reHomingRequest.getPetId())
+                .orElseThrow(()->new IllegalArgumentException());
         ReHoming reHoming = ReHoming.of(reHomingRequest);
         reHoming.setUser(user);
+        reHoming.setPet(pet);
         reHomingRepo.save(reHoming);
 
     }

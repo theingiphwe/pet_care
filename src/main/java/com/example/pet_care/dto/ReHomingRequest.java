@@ -8,9 +8,9 @@ import java.util.Date;
 @Getter
 @Setter
 public class ReHomingRequest {
-
-    private int reHomingId;
     private Date date;
     private String description;
     private int userId;
+
+    private int petId;
 }

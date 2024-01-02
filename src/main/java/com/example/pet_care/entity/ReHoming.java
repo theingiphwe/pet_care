@@ -20,9 +20,9 @@ public class ReHoming {
     private Date date;
     private String description;
 
-    @OneToMany(mappedBy = "reHoming",cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Pet> pets;
+    @ManyToOne
+    @JoinColumn(name = "petId")
+    private Pet pet;
 
     @ManyToOne
     @JoinColumn(name = "userId")

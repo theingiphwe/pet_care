@@ -2,6 +2,7 @@ package com.example.pet_care.service;
 
 import com.example.pet_care.dto.AdoptionRequest;
 import com.example.pet_care.entity.Adoption;
+import com.example.pet_care.entity.Pet;
 import com.example.pet_care.entity.User;
 import org.springframework.stereotype.Service;
 

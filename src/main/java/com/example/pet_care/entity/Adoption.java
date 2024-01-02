@@ -18,9 +18,9 @@ public class Adoption {
     private int adoptionID;
     private Date date;
     private String comment;
-    @OneToMany(mappedBy = "adoption",cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Pet> pets;
+    @ManyToOne
+    @JoinColumn(name = "petId")
+    private Pet pet;
 
     @ManyToOne
     @JoinColumn(name = "userId")

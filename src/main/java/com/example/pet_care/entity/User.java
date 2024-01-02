@@ -33,4 +33,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade =CascadeType.ALL)
     @JsonIgnore
     private List<ReHoming> reHomingList;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<PetDonate> petDonates;
 }
