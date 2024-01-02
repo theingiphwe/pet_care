@@ -12,7 +12,7 @@ public interface DonateService {
 
     List<Donate> findAllDonates();
 
-    void updateById(int id, Donate donate);
+    void updateById(int id, DonateRequest donateRequest);
 
 
     Donate findById(int id);

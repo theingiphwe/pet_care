@@ -42,10 +42,16 @@ public class ReHomingServiceImpl implements ReHomingService {
     }
 
     @Override
-    public void updateById(int id, ReHoming reHoming) {
+    public void updateById(int id, ReHomingRequest reHomingRequest) {
         Optional<ReHoming> existingReHome = reHomingRepo.findById(id);
-        existingReHome.get().setDate(reHoming.getDate());
-        existingReHome.get().setDescription(reHoming.getDescription());
+        existingReHome.get().setDate(reHomingRequest.getDate());
+        existingReHome.get().setDescription(reHomingRequest.getDescription());
+        Pet pet = petRepo.findById(reHomingRequest.getPetId())
+                        .orElseThrow(()->new IllegalArgumentException());
+        User user =  userRepo.findById(reHomingRequest.getUserId())
+                        .orElseThrow(()->new IllegalArgumentException());
+        existingReHome.get().setUser(user);
+        existingReHome.get().setPet(pet);
         reHomingRepo.save(existingReHome.get());
     }
 

@@ -14,7 +14,7 @@ public interface AdoptionService {
 
     List<Adoption> findAllAdoption();
 
-    void updateById(int id, Adoption adoption);
+    void updateById(int id, AdoptionRequest adoptionRequest);
 
     void deleteById(int id);
 

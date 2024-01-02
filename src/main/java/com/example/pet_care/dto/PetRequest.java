@@ -21,4 +21,6 @@ public class PetRequest {
     private Status status;
     private int speciesId;
 
+    private int ageTypeId;
+
 }

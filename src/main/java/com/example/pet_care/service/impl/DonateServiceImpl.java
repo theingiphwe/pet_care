@@ -41,11 +41,14 @@ public class DonateServiceImpl implements DonateService {
     }
 
     @Override
-    public void updateById(int id, Donate donate){
+    public void updateById(int id, DonateRequest donateRequest){
         Optional<Donate> existingDonate= donateRepo.findById(id);
-        existingDonate.get().setAmount(donate.getAmount());
-        existingDonate.get().setDate(donate.getDate());
-        existingDonate.get().setDescription(donate.getDescription());
+        existingDonate.get().setAmount(donateRequest.getAmount());
+        existingDonate.get().setDate(donateRequest.getDate());
+        existingDonate.get().setDescription(donateRequest.getDescription());
+        User user = userRepo.findById(donateRequest.getUserId())
+                        .orElseThrow(()->new IllegalArgumentException());
+        existingDonate.get().setUser(user);
         donateRepo.save(existingDonate.get());
     }
 

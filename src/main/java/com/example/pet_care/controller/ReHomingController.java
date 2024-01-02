@@ -37,8 +37,8 @@ public class ReHomingController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> update(@PathVariable int id,@RequestBody ReHoming reHoming){
-        reHomingService.updateById(id,reHoming);
+    public ResponseEntity<String> update(@PathVariable int id,@RequestBody ReHomingRequest reHomingRequest){
+        reHomingService.updateById(id,reHomingRequest);
         return new ResponseEntity<>("done",HttpStatus.OK);
     }
 

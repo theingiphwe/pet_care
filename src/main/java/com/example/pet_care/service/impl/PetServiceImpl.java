@@ -1,14 +1,8 @@
 package com.example.pet_care.service.impl;
 
 import com.example.pet_care.dto.PetRequest;
-import com.example.pet_care.entity.Adoption;
-import com.example.pet_care.entity.Pet;
-import com.example.pet_care.entity.ReHoming;
-import com.example.pet_care.entity.Species;
-import com.example.pet_care.repo.AdoptionRepo;
-import com.example.pet_care.repo.PetRepo;
-import com.example.pet_care.repo.ReHomingRepo;
-import com.example.pet_care.repo.SpeciesRepo;
+import com.example.pet_care.entity.*;
+import com.example.pet_care.repo.*;
 import com.example.pet_care.service.PetService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +17,17 @@ public class PetServiceImpl implements PetService {
     private PetRepo petRepo;
     private ReHomingRepo reHomingRepo;
     private SpeciesRepo speciesRepo;
-    private AdoptionRepo adoptionRepo;
+    private AgeTypeRepo ageTypeRepo;
+
     @Override
     public void register(PetRequest petRequest) {
         Species species = speciesRepo.findById(petRequest.getSpeciesId())
                 .orElseThrow(()->new IllegalArgumentException());
+        AgeType ageType = ageTypeRepo.findById(petRequest.getAgeTypeId())
+                .orElseThrow(()->new IllegalArgumentException());
         Pet pet = Pet.of(petRequest);
         pet.setSpecies(species);
+        pet.setAgeType(ageType);
         petRepo.save(pet);
     }
 
@@ -39,16 +37,21 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public void updateById(int id, Pet pet) {
+    public void updateById(int id, PetRequest petRequest) {
         Optional<Pet> existingPet = petRepo.findById(id);
-        existingPet.get().setName(pet.getName());
-        existingPet.get().setAge(pet.getAge());
-        existingPet.get().setBreed(pet.getBreed());
-        existingPet.get().setGender(pet.getGender());
-        existingPet.get().setImage(pet.getImage());
-        existingPet.get().setDescription(pet.getDescription());
-        existingPet.get().setSize(pet.getSize());
-        existingPet.get().setStatus(pet.getStatus());
+        existingPet.get().setName(petRequest.getName());
+        existingPet.get().setAge(petRequest.getAge());
+        existingPet.get().setBreed(petRequest.getBreed());
+        existingPet.get().setGender(petRequest.getGender());
+        existingPet.get().setDescription(petRequest.getDescription());
+        existingPet.get().setSize(petRequest.getSize());
+        existingPet.get().setStatus(petRequest.getStatus());
+        Species species = speciesRepo.findById(petRequest.getSpeciesId())
+                .orElseThrow(()->new IllegalArgumentException());
+        existingPet.get().setSpecies(species);
+        AgeType ageType = ageTypeRepo.findById(petRequest.getAgeTypeId())
+                .orElseThrow(()->new IllegalArgumentException());
+        existingPet.get().setAgeType(ageType);
         petRepo.save(existingPet.get());
     }
 

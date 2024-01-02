@@ -10,7 +10,7 @@ public interface ReHomingService {
 
     List<ReHoming> findAllAdoption();
 
-    void updateById(int id, ReHoming reHoming);
+    void updateById(int id, ReHomingRequest reHomingRequest);
 
     void deleteById(int id);
 

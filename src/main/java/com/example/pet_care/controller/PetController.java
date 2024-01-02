@@ -37,8 +37,8 @@ public class PetController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> update(@PathVariable int id,@RequestBody Pet pet){
-        petService.updateById(id,pet);
+    public ResponseEntity<String> update(@PathVariable int id,@RequestBody PetRequest petRequest){
+        petService.updateById(id,petRequest);
         return new ResponseEntity<>("done",HttpStatus.OK);
     }
 

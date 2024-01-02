@@ -43,10 +43,16 @@ public class AdoptionServiceImpl implements AdoptionService {
     }
 
     @Override
-    public void updateById(int id, Adoption adoption) {
+    public void updateById(int id, AdoptionRequest adoptionRequest) {
         Optional<Adoption> existingAdoption = adoptionRepo.findById(id);
-        existingAdoption.get().setDate(adoption.getDate());
-        existingAdoption.get().setComment(adoption.getComment());
+        existingAdoption.get().setDate(adoptionRequest.getDate());
+        existingAdoption.get().setComment(adoptionRequest.getComment());
+        Pet pet = petRepo.findById(adoptionRequest.getPetId())
+                .orElseThrow(()->new IllegalArgumentException());
+        User user = userRepo.findById(adoptionRequest.getUserId())
+                .orElseThrow(()->new IllegalArgumentException());
+        existingAdoption.get().setPet(pet);
+        existingAdoption.get().setUser(user);
         adoptionRepo.save(existingAdoption.get());
     }
 

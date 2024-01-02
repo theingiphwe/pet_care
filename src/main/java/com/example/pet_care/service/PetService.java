@@ -10,7 +10,7 @@ public interface PetService {
 
     List<Pet> findAllUser();
 
-    void updateById(int id, Pet pet);
+    void updateById(int id, PetRequest petRequest);
 
     void deleteById(int id);
 

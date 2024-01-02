@@ -1,8 +1,11 @@
 package com.example.pet_care.service.impl;
 
 import com.example.pet_care.entity.FilePath;
+import com.example.pet_care.entity.Pet;
+import com.example.pet_care.repo.PetRepo;
 import com.example.pet_care.service.FileImageService;
 import com.example.pet_care.service.FilePathService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,7 +27,9 @@ public class FileImageServiceImpl implements FileImageService {
     private String fileDirectory;
 
     @Autowired
-    private FilePathService filePathService;
+    private  FilePathService filePathService;
+    @Autowired
+    private  PetRepo petRepo;
     @Override
     public void saveImage(int id, MultipartFile multipartFile)throws IOException {
         String uploadDir = StringUtils.cleanPath(fileDirectory);
@@ -37,10 +42,12 @@ public class FileImageServiceImpl implements FileImageService {
 
         InputStream inputStream = multipartFile.getInputStream();
         Path filePath = uploadPath.resolve(originalFilename);
+        Pet petInfo= petRepo.findById(id).orElseThrow(()->new IllegalArgumentException("Pet not Found"));
 
         Files.copy(inputStream,filePath, StandardCopyOption.REPLACE_EXISTING);
         FilePath filePathEntity = new FilePath();
         filePathEntity.setFilePath(tempDir+"/"+originalFilename);
+        filePathEntity.setPet(petInfo);
 
         filePathService.saveFile(filePathEntity);
 

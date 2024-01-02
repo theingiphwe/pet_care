@@ -39,8 +39,8 @@ public class DonateController {
         return new ResponseEntity<>("1 row effected",HttpStatus.OK);
     }
     @PutMapping("/{id}")
-    public  ResponseEntity<String> update(@PathVariable int id,@RequestBody Donate donate){
-        donateService.updateById(id, donate);
+    public  ResponseEntity<String> update(@PathVariable int id,@RequestBody DonateRequest donateRequest){
+        donateService.updateById(id, donateRequest);
         return new ResponseEntity<>("Done",HttpStatus.OK);
     }
 }

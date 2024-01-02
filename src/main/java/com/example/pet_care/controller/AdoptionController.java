@@ -38,8 +38,8 @@ public class AdoptionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> update(@PathVariable int id,@RequestBody Adoption adoption){
-        adoptionService.updateById(id,adoption);
+    public ResponseEntity<String> update(@PathVariable int id,@RequestBody AdoptionRequest adoptionRequest){
+        adoptionService.updateById(id,adoptionRequest);
         return new ResponseEntity<>("done",HttpStatus.OK);
     }
 
