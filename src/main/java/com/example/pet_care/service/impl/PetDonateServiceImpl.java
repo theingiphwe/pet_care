@@ -41,12 +41,16 @@ public class PetDonateServiceImpl implements PetDonateService {
     }
 
     @Override
-    public void updateById(int id, PetDonate petDonate) {
+    public void updateById(int id, PetDonateRequest petDonateRequest) {
         Optional<PetDonate> existingPetDonate = petDonateRepo.findById(id);
-        existingPetDonate.get().setUser(petDonate.getUser());
-        existingPetDonate.get().setPet(petDonate.getPet());
-        existingPetDonate.get().setAmount(petDonate.getAmount());
-        existingPetDonate.get().setDescription(petDonate.getDescription());
+        User user = userRepo.findById(petDonateRequest.getUserId())
+                        .orElseThrow(()->new IllegalArgumentException());
+        Pet pet = petRepo.findById(petDonateRequest.getPetId())
+                        .orElseThrow(()->new IllegalArgumentException());
+        existingPetDonate.get().setUser(user);
+        existingPetDonate.get().setPet(pet);
+        existingPetDonate.get().setAmount(petDonateRequest.getAmount());
+        existingPetDonate.get().setDescription(petDonateRequest.getDescription());
         petDonateRepo.save(existingPetDonate.get());
     }
 

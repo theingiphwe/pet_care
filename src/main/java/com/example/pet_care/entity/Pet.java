@@ -30,10 +30,14 @@ public class Pet {
 
 //    @Enumerated(EnumType.STRING)
 //    private Status status;
+    @Enumerated(EnumType.STRING)
     @Column(name = "is_adoptable")
-    private boolean isAdoptable;
+    private Adoptable isAdoptable;
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @Enumerated(EnumType.STRING)
+    private DeleteStatus deleteStatus;
 
     @OneToMany(mappedBy = "pet",cascade = CascadeType.ALL)
     @JsonIgnore
@@ -58,7 +62,8 @@ public class Pet {
         pet.setGender(petRequest.getGender());
         pet.setBreed(petRequest.getBreed());
         pet.setColor(petRequest.getColor());
-        pet.setAdoptable(petRequest.isAdoptable());
+        pet.setIsAdoptable(petRequest.getIsAdoptable());
+        pet.setDeleteStatus(petRequest.getDeleteStatus());
         return pet;
 
     }

@@ -16,7 +16,7 @@ public class Species {
     private  int id;
     private String name;
 
-    @OneToMany(mappedBy = "species",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "species")
     @JsonIgnore
     private List<Pet> pets;
 

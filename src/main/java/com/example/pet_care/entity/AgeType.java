@@ -17,7 +17,7 @@ public class AgeType {
     private int  ageTypeId;
     private String category;
     private String ageBetween;
-    @OneToMany(mappedBy = "ageType",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ageType")
     @JsonIgnore
     private List<Pet> pets;
 }

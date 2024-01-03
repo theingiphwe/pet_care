@@ -10,7 +10,7 @@ public interface PetDonateService {
 
     List<PetDonate> findAllUser();
 
-    void updateById(int id, PetDonate petDonate);
+    void updateById(int id, PetDonateRequest petDonateRequest);
 
     void deleteById(int id);
 }

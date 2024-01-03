@@ -46,6 +46,9 @@ public class PetServiceImpl implements PetService {
         existingPet.get().setDescription(petRequest.getDescription());
         existingPet.get().setSize(petRequest.getSize());
         existingPet.get().setStatus(petRequest.getStatus());
+        existingPet.get().setIsAdoptable(petRequest.getIsAdoptable());
+        existingPet.get().setColor(petRequest.getColor());
+        existingPet.get().setDeleteStatus(petRequest.getDeleteStatus());
         Species species = speciesRepo.findById(petRequest.getSpeciesId())
                 .orElseThrow(()->new IllegalArgumentException());
         existingPet.get().setSpecies(species);

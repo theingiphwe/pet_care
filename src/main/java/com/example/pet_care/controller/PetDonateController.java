@@ -30,8 +30,8 @@ public class PetDonateController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> update(@PathVariable int id,@RequestBody PetDonate petDonate){
-        petDonateService.updateById(id,petDonate);
+    public ResponseEntity<String> update(@PathVariable int id,@RequestBody PetDonateRequest petDonateRequest){
+        petDonateService.updateById(id,petDonateRequest);
         return new ResponseEntity<>("done",HttpStatus.OK);
     }
 

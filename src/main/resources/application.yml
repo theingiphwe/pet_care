@@ -14,4 +14,4 @@ spring:
 
 pet:
   file:
-    path: D:\tgp\ACEplus_assignment\pet_mages
+    path: D:\tgp\ACEplus_assignment\spring-boot\pet_care

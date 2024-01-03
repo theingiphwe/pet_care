@@ -1,8 +1,6 @@
 package com.example.pet_care.dto;
 
-import com.example.pet_care.entity.Gender;
-import com.example.pet_care.entity.Size;
-import com.example.pet_care.entity.Status;
+import com.example.pet_care.entity.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,8 +15,9 @@ public class PetRequest {
     private String description;
     private String color;
     private Size size;
-    private boolean isAdoptable;
+    private Adoptable isAdoptable;
     private Status status;
+    private DeleteStatus deleteStatus;
     private int speciesId;
 
     private int ageTypeId;
