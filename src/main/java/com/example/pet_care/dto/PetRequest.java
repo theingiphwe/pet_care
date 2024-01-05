@@ -1,6 +1,6 @@
 package com.example.pet_care.dto;
 
-import com.example.pet_care.entity.*;
+import com.example.pet_care.enumTypes.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +16,7 @@ public class PetRequest {
     private String color;
     private Size size;
     private Adoptable isAdoptable;
-    private Status status;
+    private AdoptionStatus adoptionStatus;
     private DeleteStatus deleteStatus;
     private int speciesId;
 

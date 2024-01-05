@@ -1,9 +1,9 @@
-package com.example.pet_care.entity;
+package com.example.pet_care.enumTypes;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @JsonFormat(shape = JsonFormat.Shape.STRING)
-public enum Status {
-    ACTIVE,
-    NOT_ACTIVE
+public enum Gender {
+    MALE,
+    FEMALE
 }

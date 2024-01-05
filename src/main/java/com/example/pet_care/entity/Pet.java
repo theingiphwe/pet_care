@@ -1,6 +1,7 @@
 package com.example.pet_care.entity;
 
 import com.example.pet_care.dto.PetRequest;
+import com.example.pet_care.enumTypes.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -27,14 +28,10 @@ public class Pet {
 
     @Enumerated(EnumType.STRING)
     private Size size;
-
-//    @Enumerated(EnumType.STRING)
-//    private Status status;
     @Enumerated(EnumType.STRING)
-    @Column(name = "is_adoptable")
     private Adoptable isAdoptable;
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private AdoptionStatus adoptionStatus;
 
     @Enumerated(EnumType.STRING)
     private DeleteStatus deleteStatus;
@@ -58,12 +55,9 @@ public class Pet {
         pet.setAge(petRequest.getAge());
         pet.setSize(petRequest.getSize());
         pet.setDescription(petRequest.getDescription());
-        pet.setStatus(petRequest.getStatus());
         pet.setGender(petRequest.getGender());
         pet.setBreed(petRequest.getBreed());
         pet.setColor(petRequest.getColor());
-        pet.setIsAdoptable(petRequest.getIsAdoptable());
-        pet.setDeleteStatus(petRequest.getDeleteStatus());
         return pet;
 
     }

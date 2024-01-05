@@ -48,4 +48,10 @@ public class PetController {
         return new ResponseEntity<>("done",HttpStatus.OK);
     }
 
+    @PutMapping("/cele/{id}")
+    public ResponseEntity<String> isCelebrity(@PathVariable int id,@RequestBody PetRequest petRequest){
+        petService.celebrity(id,petRequest);
+        return new ResponseEntity<>("done",HttpStatus.OK);
+    }
+
 }

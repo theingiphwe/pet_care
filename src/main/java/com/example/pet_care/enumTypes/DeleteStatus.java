@@ -1,9 +1,10 @@
-package com.example.pet_care.entity;
+package com.example.pet_care.enumTypes;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @JsonFormat(shape = JsonFormat.Shape.STRING)
-public enum Gender {
-    MALE,
-    FEMALE
+public enum DeleteStatus {
+
+    ALLOW,
+    DENY
 }

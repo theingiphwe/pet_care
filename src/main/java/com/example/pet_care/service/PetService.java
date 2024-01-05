@@ -15,4 +15,6 @@ public interface PetService {
     void deleteById(int id);
 
     Pet findById(int id);
+
+    void celebrity(int id, PetRequest petRequest);
 }

@@ -1,5 +1,6 @@
 package com.example.pet_care.entity;
 
+import com.example.pet_care.enumTypes.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;

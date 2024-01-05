@@ -2,10 +2,12 @@ package com.example.pet_care.service.impl;
 
 import com.example.pet_care.dto.PetRequest;
 import com.example.pet_care.entity.*;
+import com.example.pet_care.enumTypes.Adoptable;
+import com.example.pet_care.enumTypes.AdoptionStatus;
+import com.example.pet_care.enumTypes.DeleteStatus;
 import com.example.pet_care.repo.*;
 import com.example.pet_care.service.PetService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +17,6 @@ import java.util.Optional;
 @AllArgsConstructor
 public class PetServiceImpl implements PetService {
     private PetRepo petRepo;
-    private ReHomingRepo reHomingRepo;
     private SpeciesRepo speciesRepo;
     private AgeTypeRepo ageTypeRepo;
 
@@ -28,6 +29,9 @@ public class PetServiceImpl implements PetService {
         Pet pet = Pet.of(petRequest);
         pet.setSpecies(species);
         pet.setAgeType(ageType);
+        pet.setDeleteStatus(DeleteStatus.ALLOW);
+        pet.setAdoptionStatus(AdoptionStatus.ACTIVE);
+        pet.setIsAdoptable(Adoptable.TRUE);
         petRepo.save(pet);
     }
 
@@ -45,10 +49,7 @@ public class PetServiceImpl implements PetService {
         existingPet.get().setGender(petRequest.getGender());
         existingPet.get().setDescription(petRequest.getDescription());
         existingPet.get().setSize(petRequest.getSize());
-        existingPet.get().setStatus(petRequest.getStatus());
-        existingPet.get().setIsAdoptable(petRequest.getIsAdoptable());
         existingPet.get().setColor(petRequest.getColor());
-        existingPet.get().setDeleteStatus(petRequest.getDeleteStatus());
         Species species = speciesRepo.findById(petRequest.getSpeciesId())
                 .orElseThrow(()->new IllegalArgumentException());
         existingPet.get().setSpecies(species);
@@ -60,13 +61,29 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public void deleteById(int id) {
-        if(petRepo.existsById(id)){
-            petRepo.deleteById(id);
+        Optional<Pet> pet = petRepo.findById(id);
+        if(pet.isPresent()){
+            Pet deletePet = pet.get();
+            deletePet.setDeleteStatus(DeleteStatus.DENY);
+            deletePet.setIsAdoptable(Adoptable.FALSE);
+            deletePet.setAdoptionStatus(AdoptionStatus.NOT_ACTIVE);
+            petRepo.save(deletePet);
         }
     }
 
     @Override
     public Pet findById(int id) {
         return petRepo.findById(id).orElseThrow(()->new IllegalArgumentException("invalid id"));
+    }
+
+    @Override
+    public void celebrity(int id, PetRequest petRequest) {
+        Optional<Pet> pet = petRepo.findById(id);
+        if(pet.isPresent()){
+            Pet celePet = pet.get();
+            celePet.setAdoptionStatus(AdoptionStatus.ACTIVE);
+            celePet.setIsAdoptable(Adoptable.FALSE);
+            petRepo.save(celePet);
+        }
     }
 }
