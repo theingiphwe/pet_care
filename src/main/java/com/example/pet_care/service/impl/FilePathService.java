@@ -1,4 +1,4 @@
-package com.example.pet_care.service;
+package com.example.pet_care.service.impl;
 
 import com.example.pet_care.entity.FilePath;
 import com.example.pet_care.repo.FilePathRepo;

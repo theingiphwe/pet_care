@@ -19,6 +19,7 @@ public class PetServiceImpl implements PetService {
     private PetRepo petRepo;
     private SpeciesRepo speciesRepo;
     private AgeTypeRepo ageTypeRepo;
+    private  FilePathRepo filePathRepo;
 
     @Override
     public void register(PetRequest petRequest) {
@@ -26,9 +27,12 @@ public class PetServiceImpl implements PetService {
                 .orElseThrow(()->new IllegalArgumentException());
         AgeType ageType = ageTypeRepo.findById(petRequest.getAgeTypeId())
                 .orElseThrow(()->new IllegalArgumentException());
+        FilePath filePath = filePathRepo.findById(petRequest.getFilePathId())
+                .orElseThrow(()->new IllegalArgumentException());
         Pet pet = Pet.of(petRequest);
         pet.setSpecies(species);
         pet.setAgeType(ageType);
+        pet.setFilePath(filePath);
         pet.setDeleteStatus(DeleteStatus.ALLOW);
         pet.setAdoptionStatus(AdoptionStatus.ACTIVE);
         pet.setIsAdoptable(Adoptable.TRUE);
@@ -55,7 +59,10 @@ public class PetServiceImpl implements PetService {
         existingPet.get().setSpecies(species);
         AgeType ageType = ageTypeRepo.findById(petRequest.getAgeTypeId())
                 .orElseThrow(()->new IllegalArgumentException());
+        FilePath filePath = filePathRepo.findById(petRequest.getFilePathId())
+                .orElseThrow(()->new IllegalArgumentException());
         existingPet.get().setAgeType(ageType);
+        existingPet.get().setFilePath(filePath);
         petRepo.save(existingPet.get());
     }
 

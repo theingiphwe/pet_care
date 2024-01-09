@@ -48,6 +48,10 @@ public class Pet {
     @JoinColumn(name = "ageTypeId")
     private AgeType ageType;
 
+    @OneToOne
+    @JoinColumn(name = "filePath_PetImage")
+    private FilePath filePath;
+
 
     public static Pet of(PetRequest petRequest){
         Pet pet = new Pet();

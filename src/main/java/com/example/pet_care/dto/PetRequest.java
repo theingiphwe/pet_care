@@ -11,15 +11,11 @@ public class PetRequest {
     private int age;
     private String breed;
     private Gender gender;
-    private String image;
     private String description;
     private String color;
     private Size size;
-    private Adoptable isAdoptable;
-    private AdoptionStatus adoptionStatus;
-    private DeleteStatus deleteStatus;
     private int speciesId;
-
     private int ageTypeId;
+    private int filePathId;
 
 }

@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 
 @Entity
 @Getter
@@ -21,6 +23,8 @@ public class PetDonate {
     private User user;
     private double amount;
     private String description;
+
+    private Date date;
 
     public static PetDonate of(PetDonateRequest petDonateRequest){
         PetDonate petDonate = new PetDonate();

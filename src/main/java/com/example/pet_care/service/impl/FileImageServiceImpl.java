@@ -4,15 +4,12 @@ import com.example.pet_care.entity.FilePath;
 import com.example.pet_care.entity.Pet;
 import com.example.pet_care.repo.PetRepo;
 import com.example.pet_care.service.FileImageService;
-import com.example.pet_care.service.FilePathService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -51,6 +48,14 @@ public class FileImageServiceImpl implements FileImageService {
 
         filePathService.saveFile(filePathEntity);
 
+    }
+
+    @Override
+    public byte[] getImageData(String filePath) throws IOException {
+        String downloadDir = StringUtils.cleanPath(fileDirectory);
+        String downloadTmpDir = downloadDir+filePath;
+        Path path = Paths.get(downloadTmpDir);
+        return Files.readAllBytes(path);
     }
 
 }

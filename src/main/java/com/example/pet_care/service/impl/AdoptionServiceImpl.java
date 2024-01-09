@@ -4,6 +4,9 @@ import com.example.pet_care.dto.AdoptionRequest;
 import com.example.pet_care.entity.Adoption;
 import com.example.pet_care.entity.Pet;
 import com.example.pet_care.entity.User;
+import com.example.pet_care.enumTypes.Adoptable;
+import com.example.pet_care.enumTypes.AdoptionStatus;
+import com.example.pet_care.enumTypes.DeleteStatus;
 import com.example.pet_care.repo.AdoptionRepo;
 import com.example.pet_care.repo.PetRepo;
 import com.example.pet_care.repo.UserRepo;
@@ -30,7 +33,9 @@ public class AdoptionServiceImpl implements AdoptionService {
                         .orElseThrow(()->new IllegalArgumentException());
         Pet pet = petRepo.findById(adoptionRequest.getPetId())
                 .orElseThrow(()-> new IllegalArgumentException());
-
+        pet.setDeleteStatus(DeleteStatus.DENY);
+        pet.setIsAdoptable(Adoptable.FALSE);
+        pet.setAdoptionStatus(AdoptionStatus.NOT_ACTIVE);
         Adoption adoption = Adoption.of(adoptionRequest);
         adoption.setPet(pet);
         adoption.setUser(user);
