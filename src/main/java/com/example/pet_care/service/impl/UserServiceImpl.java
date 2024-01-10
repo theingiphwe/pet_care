@@ -1,6 +1,7 @@
 package com.example.pet_care.service.impl;
 
 import com.example.pet_care.entity.User;
+import com.example.pet_care.enumTypes.Role;
 import com.example.pet_care.repo.UserRepo;
 import com.example.pet_care.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ public class UserServiceImpl implements UserService {
     private UserRepo userRepo;
     @Override
     public void create(User user) {
+        user.setRole(Role.CUSTOMER);
         userRepo.save(user);
     }
 
@@ -45,6 +47,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(int id) {
         return userRepo.findById(id).orElseThrow(()->new IllegalArgumentException("invalid id"));
+    }
+
+    @Override
+    public User loginUser(String userEmail, String userPassword) {
+        User userLogin = userRepo.findByEmail(userEmail)
+                .orElseThrow(()->new IllegalArgumentException("user not found"));
+
+        if (userLogin.getPassword().equals(userPassword)){
+            return userLogin;
+        }
+        return null;
     }
 
 }

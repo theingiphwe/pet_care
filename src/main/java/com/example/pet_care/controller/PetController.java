@@ -1,8 +1,9 @@
 package com.example.pet_care.controller;
 
+import com.example.pet_care.dto.PetDto;
 import com.example.pet_care.dto.PetRequest;
-import com.example.pet_care.entity.FilePath;
-import com.example.pet_care.entity.Pet;
+import com.example.pet_care.entity.*;
+import com.example.pet_care.enumTypes.*;
 import com.example.pet_care.repo.FilePathRepo;
 import com.example.pet_care.service.FileImageService;
 import com.example.pet_care.service.PetService;
@@ -11,8 +12,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -29,21 +33,51 @@ public class PetController {
     private FileImageService fileImageService;
 
     @PostMapping
-    public ResponseEntity<PetRequest> createUser(@RequestBody PetRequest petRequest){
-        petService.register(petRequest);
-        return  new ResponseEntity<>(petRequest, HttpStatus.CREATED);
+    public ResponseEntity<Pet> createPet(
+            @RequestParam String name,
+            @RequestParam int age,@RequestParam String breed,
+            @RequestParam Gender gender,@RequestParam String description,
+            @RequestParam String color,@RequestParam Size size,
+            @RequestParam int specieId,@RequestParam int ageTypeId,
+            @RequestParam MultipartFile file
+    ) throws IOException {
+//        if(gender.equals("MALE")){
+//            gender.setGender(Gender.MALE);
+//        }
+//        else {
+//            petRequest.setGender(Gender.FEMALE);
+//        }
+        PetRequest petRequest = new PetRequest();
+        petRequest.setName(name);
+        petRequest.setAge(age);
+        petRequest.setBreed(breed);
+        petRequest.setGender(gender);
+        petRequest.setDescription(description);
+        petRequest.setColor(color);
+        petRequest.setSize(size);
+        petRequest.setAgeTypeId(ageTypeId);
+        petRequest.setSpeciesId(specieId);
+
+        Pet pet =petService.register(petRequest,file);
+        return  new ResponseEntity<>(pet, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Pet> findById(@PathVariable int id){
+    public ResponseEntity<PetDto> findById(@PathVariable int id){
         Pet pet = petService.findById(id);
-        return new ResponseEntity<>(pet,HttpStatus.OK);
+        PetDto petDto = PetDto.of(pet);
+        return new ResponseEntity<>(petDto,HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<Pet>> findAll(){
+    public ResponseEntity<List<PetDto>> findAll(){
         List<Pet> pets = petService.findAllUser();
-        return new ResponseEntity<>(pets,HttpStatus.OK);
+        List<PetDto> petDtoList = new ArrayList<>();
+        for(Pet pet: pets){
+            PetDto petDto = PetDto.of(pet);
+            petDtoList.add(petDto);
+        }
+        return new ResponseEntity<>(petDtoList,HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
@@ -71,10 +105,10 @@ public class PetController {
 
         try {
             byte[] image = fileImageService.getImageData(filePath.getFilePath());
-            return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).build();
+            return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
         }catch (IOException e){
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 

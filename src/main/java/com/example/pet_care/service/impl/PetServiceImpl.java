@@ -9,7 +9,9 @@ import com.example.pet_care.repo.*;
 import com.example.pet_care.service.PetService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,23 +22,27 @@ public class PetServiceImpl implements PetService {
     private SpeciesRepo speciesRepo;
     private AgeTypeRepo ageTypeRepo;
     private  FilePathRepo filePathRepo;
+    private FileImageServiceImpl fileImageService;
 
     @Override
-    public void register(PetRequest petRequest) {
+    public Pet register(PetRequest petRequest, MultipartFile file) throws IOException {
         Species species = speciesRepo.findById(petRequest.getSpeciesId())
-                .orElseThrow(()->new IllegalArgumentException());
+                .orElseThrow(()->new IllegalArgumentException("specie not found"));
         AgeType ageType = ageTypeRepo.findById(petRequest.getAgeTypeId())
-                .orElseThrow(()->new IllegalArgumentException());
-        FilePath filePath = filePathRepo.findById(petRequest.getFilePathId())
-                .orElseThrow(()->new IllegalArgumentException());
+                .orElseThrow(()->new IllegalArgumentException("ageType not found"));
         Pet pet = Pet.of(petRequest);
         pet.setSpecies(species);
         pet.setAgeType(ageType);
-        pet.setFilePath(filePath);
         pet.setDeleteStatus(DeleteStatus.ALLOW);
         pet.setAdoptionStatus(AdoptionStatus.ACTIVE);
         pet.setIsAdoptable(Adoptable.TRUE);
         petRepo.save(pet);
+        int petId = pet.getId();
+        int fileId = fileImageService.saveImage(petId,file);
+        FilePath filePathEntity = filePathRepo.findById(fileId)
+                .orElseThrow(()->new IllegalArgumentException("File not found"));
+        pet.setFilePath(filePathEntity);
+        return petRepo.save(pet);
     }
 
     @Override

@@ -28,7 +28,7 @@ public class FileImageServiceImpl implements FileImageService {
     @Autowired
     private  PetRepo petRepo;
     @Override
-    public void saveImage(int id, MultipartFile multipartFile)throws IOException {
+    public int saveImage(int id, MultipartFile multipartFile)throws IOException {
         String uploadDir = StringUtils.cleanPath(fileDirectory);
         String tempDir = String.valueOf(id);
         Path uploadPath = Paths.get(uploadDir+"/"+tempDir);
@@ -39,20 +39,21 @@ public class FileImageServiceImpl implements FileImageService {
 
         InputStream inputStream = multipartFile.getInputStream();
         Path filePath = uploadPath.resolve(originalFilename);
-        Pet petInfo= petRepo.findById(id).orElseThrow(()->new IllegalArgumentException("Pet not Found"));
 
         Files.copy(inputStream,filePath, StandardCopyOption.REPLACE_EXISTING);
         FilePath filePathEntity = new FilePath();
         filePathEntity.setFilePath(tempDir+"/"+originalFilename);
-        filePathEntity.setPet(petInfo);
+        Pet pet = petRepo.findById(id).orElseThrow(()->new IllegalArgumentException("pet not found"));
 
+        filePathEntity.setPet(pet);
         filePathService.saveFile(filePathEntity);
+        return filePathEntity.getId();
 
     }
 
     @Override
     public byte[] getImageData(String filePath) throws IOException {
-        String downloadDir = StringUtils.cleanPath(fileDirectory);
+        String downloadDir = StringUtils.cleanPath(fileDirectory+"/");
         String downloadTmpDir = downloadDir+filePath;
         Path path = Paths.get(downloadTmpDir);
         return Files.readAllBytes(path);

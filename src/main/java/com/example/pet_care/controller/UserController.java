@@ -46,4 +46,10 @@ public class UserController {
         userService.deleteById(id);
         return new ResponseEntity<>("done",HttpStatus.OK);
     }
+
+    @PostMapping("/loginUser")
+    public ResponseEntity<User> loginUser(@RequestParam String userEmail,@RequestParam String userPassword){
+        User user =userService.loginUser(userEmail,userPassword);
+        return ResponseEntity.ok(user);
+    }
 }
