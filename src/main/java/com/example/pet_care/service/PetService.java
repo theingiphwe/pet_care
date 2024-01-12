@@ -2,6 +2,8 @@ package com.example.pet_care.service;
 
 import com.example.pet_care.dto.PetRequest;
 import com.example.pet_care.entity.Pet;
+import com.example.pet_care.enumTypes.Adoptable;
+import com.example.pet_care.enumTypes.AdoptionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -19,4 +21,8 @@ public interface PetService {
     Pet findById(int id);
 
     void celebrity(int id, PetRequest petRequest);
+
+    List<Pet> findAllByAdoptionStatus(AdoptionStatus status);
+
+    List<Pet> findCelebrityPet(AdoptionStatus status);
 }

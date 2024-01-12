@@ -8,10 +8,12 @@ import com.example.pet_care.enumTypes.DeleteStatus;
 import com.example.pet_care.repo.*;
 import com.example.pet_care.service.PetService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -99,4 +101,26 @@ public class PetServiceImpl implements PetService {
             petRepo.save(celePet);
         }
     }
+
+    @Override
+    public List<Pet> findAllByAdoptionStatus(AdoptionStatus status) {
+        List<Pet> petList = petRepo.findAllByAdoptionStatus(status);
+        return petList;
+    }
+
+    @Override
+    public List<Pet> findCelebrityPet(AdoptionStatus status) {
+        List<Pet> petList = petRepo.findAllByAdoptionStatus(status);
+        List<Pet> noAdoptPet= new ArrayList<>();
+
+        for (Pet pet:petList) {
+            if(pet.getIsAdoptable().equals(Adoptable.FALSE)){
+                noAdoptPet.add(pet);
+            }
+        }
+
+        return noAdoptPet;
+    }
+
+
 }

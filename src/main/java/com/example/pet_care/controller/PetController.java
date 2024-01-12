@@ -112,4 +112,26 @@ public class PetController {
         }
     }
 
+    @GetMapping("/activeStatus")
+    public ResponseEntity<List<PetDto>> findAllByStatus(){
+        List<Pet> pets = petService.findAllByAdoptionStatus(AdoptionStatus.ACTIVE);
+        List<PetDto> petDtoList = new ArrayList<>();
+        for(Pet pet: pets){
+            PetDto petDto = PetDto.of(pet);
+            petDtoList.add(petDto);
+        }
+        return new ResponseEntity<>(petDtoList,HttpStatus.OK);
+    }
+
+    @GetMapping("/noAdoptPets")
+    public ResponseEntity<List<PetDto>> findCelePet(){
+        List<Pet> pets = petService.findCelebrityPet(AdoptionStatus.ACTIVE);
+        List<PetDto> petDtoList = new ArrayList<>();
+        for(Pet pet: pets){
+            PetDto petDto = PetDto.of(pet);
+            petDtoList.add(petDto);
+        }
+        return new ResponseEntity<>(petDtoList,HttpStatus.OK);
+    }
+
 }

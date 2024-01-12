@@ -31,6 +31,8 @@ public class PetDto {
         petDto.setBreed(pet.getBreed());
         petDto.setDescription(pet.getDescription());
         petDto.setImage("http://localhost:8080/pet/images/"+pet.getId());
+        petDto.setSpeciesId(pet.getSpecies().getId());
+        petDto.setAgeTypeId(pet.getAgeType().getAgeTypeId());
         return petDto;
     }
 
